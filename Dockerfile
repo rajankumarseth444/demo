@@ -14,23 +14,22 @@ RUN chown jboss:jboss /var/log/wezva
 
 # Add the WildFZy distribution to /opt, and make wildfly the owner of the extracted to
 RUN cd $HOME \
-&& curl -O https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
-&& shalsum wildfly-$WILDFLY_VERSION.tar.gz | grep $WILDFLY_SHA1 \
-&& tar xf wildfly-$WILDFLY_VERSION.tar.gz \
-&& mv $HOME/wildfly-$WILDFLY_VERSION $JBOSS_HOME \
-&& rm wildfly-$WILDFLY_VERSION.tar.gz \
-&& chown -R jboss:0 ${JBOSS_HOME) \
-&& chmod -R g+rw ${JBOSS_HOME} 
+    && curl -O https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
+    && shalsum wildfly-$WILDFLY_VERSION.tar.gz | grep $WILDFLY_SHA1 \
+    && tar xf wildfly-$WILDFLY_VERSION.tar.gz \
+    && mv $HOME/wildfly-$WILDFLY_VERSION $JBOSS_HOME \
+    && rm wildfly-$WILDFLY_VERSION.tar.gz \
+    && chown -R jboss:0 ${JBOSS_HOME) \
+    && chmod -R g+rw ${JBOSS_HOME} 
 
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
-ENV LAUNCH_JBOSS_IN_BACKGROUND true
+  ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
-USER jboss
+  USER jboss
 
 # Expose the ports we're interested in
-EXPOSE 8080
+  EXPOSE 8080
 
 # Set the default command to run on boot
 # This will boot WildFly in the standalone mode and bind to all interface
-ENTRYPOINT ("/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
-
+  ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
